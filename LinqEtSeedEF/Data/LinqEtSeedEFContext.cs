@@ -43,7 +43,8 @@ namespace LinqEtSeedEF.Data
                 new Commande { Id = 1, Date = new DateTime(2022, 05, 01), ClientId = 1, RestaurantId = 1 },
                 new Commande { Id = 2, Date = new DateTime(2022, 05, 02), ClientId = 2, RestaurantId = 2 },
                 new Commande { Id = 3, Date = new DateTime(2022, 05, 03), ClientId = 3, RestaurantId = 3 },
-                new Commande { Id = 4, Date = new DateTime(2022, 05, 03), ClientId = 2, RestaurantId = 4 }
+                new Commande { Id = 4, Date = new DateTime(2022, 05, 03), ClientId = 2, RestaurantId = 4 },
+                new Commande { Id = 5, Date = new DateTime(2022, 05, 04), ClientId = 5, RestaurantId = 2}
                 );
 
             builder.Entity<CommandePlat>().HasData(
@@ -55,7 +56,10 @@ namespace LinqEtSeedEF.Data
                 
                 new CommandePlat { CommandeId = 3, PlatId = 5, Quantite = 4 },
                 
-                new CommandePlat { CommandeId = 4, PlatId = 6, Quantite = 2 }
+                new CommandePlat { CommandeId = 4, PlatId = 6, Quantite = 2 },
+
+                new CommandePlat { CommandeId = 5, PlatId = 3, Quantite = 3},
+                new CommandePlat { CommandeId = 5, PlatId = 4, Quantite = 3}
                 );
 
             builder.Entity<TestData>().HasData(
