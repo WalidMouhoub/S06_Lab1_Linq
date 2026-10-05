@@ -3,7 +3,6 @@ using LinqEtSeedEF.Models;
 using LinqEtSeedEF.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol;
 
 namespace LinqEtSeedEF.Controllers
 {
@@ -79,6 +78,7 @@ namespace LinqEtSeedEF.Controllers
             }
             // TODO: Écrire la logique pour trouver le prix du plat le plus cher avec Linq
             // Utilisez Max
+            // EXERCICE LINQ: trouver le prix maximal avec Max.
             decimal prixLinq = _context.Plat.Max(p => p.Prix);
 
 
@@ -97,7 +97,8 @@ namespace LinqEtSeedEF.Controllers
                 valeurTotal += plat.Prix;
             }
 
-            decimal valeurTotalLinq = _context.Plat.Sum(p => p.Prix) ;
+            // EXERCICE LINQ: calculer la somme des prix avec Sum.
+            decimal valeurTotalLinq = _context.Plat.Sum(p => p.Prix);
 
             return new DecimalViewModel("Quelle est la valeur totale des plats?", valeurTotal, valeurTotalLinq);
         }
@@ -124,8 +125,8 @@ namespace LinqEtSeedEF.Controllers
                     
                 }
             }
-            decimal valeurTotalLinq = listeLinq.Where(c => c.Client.Nom == "Patrick Gagné").Sum(p => p.CommandesPlats.Sum(cP => cP.Quantite * cP.Plat.Prix));
-
+            // EXERCICE LINQ: filtrer par nomClient, puis utiliser Sum deux fois.
+            decimal valeurTotalLinq = listeLinq.Where(commande => commande.Client.Nom == nomClient).Sum(commande => commande.CommandesPlats.Sum(commandePlat => commandePlat.Quantite * commandePlat.Plat.Prix));
             return new DecimalViewModel("Quelle est la valeur totale des commandes de " + nomClient + "?", valeurTotal, valeurTotalLinq);
         }
 
@@ -154,7 +155,8 @@ namespace LinqEtSeedEF.Controllers
                 }
             }
 
-            decimal commandeLaPlusCherLinq = listeLinq.Max(c => c.CommandesPlats.Sum(cp => cp.Quantite * cp.Plat.Prix));
+            // EXERCICE LINQ: calculer le total de chaque commande avec Sum, puis Max.
+            decimal commandeLaPlusCherLinq = listeLinq.Max(commande => commande.CommandesPlats.Sum(commandePlat => commandePlat.Quantite * commandePlat.Plat.Prix));
 
             return new DecimalViewModel("Quel est le prix de la commande la plus chère?", commandeLaPlusCher, commandeLaPlusCherLinq);
         }
@@ -198,11 +200,12 @@ namespace LinqEtSeedEF.Controllers
 
             var restaurant = _context.Restaurant.Where(r => r.Nom == nomDuResto).ToList();
 
-            
+
 
             // TODO: Même chose, mais avec Linq
             // Utilisez Where, All et Any
-            bool? optionVegeLinq = restaurant.Any(r => r.Plats.Any(p => p.Vegetarien)) ;
+            // EXERCICE LINQ: utiliser Any et All pour vérifier les plats végétariens.
+            bool? optionVegeLinq = restaurant.Any(r => r.Plats.Any(p => p.Vegetarien));
             bool? toutVegeLinq = restaurant.All(r => r.Plats.All(p => p.Vegetarien));
 
             return new VegetarienViewModel("Status végétarien du restaurant : " + nomDuResto, toutVege, toutVegeLinq, optionVege, optionVegeLinq);
@@ -237,6 +240,7 @@ namespace LinqEtSeedEF.Controllers
             plats.Sort(ComparerPrix);
             // Obtenir la liste avec Linq
             // Utilisez Where, OrderBy et ToList
+            // EXERCICE LINQ: Where, OrderBy et ToList.
             List<Plat> platsLinq = _context.Plat.Where(p => p.Vegetarien).OrderBy(p => p.Prix).ToList();
 
             return new PlatsViewModel("Quels sont les plats végétariens?", plats, platsLinq);
@@ -262,7 +266,8 @@ namespace LinqEtSeedEF.Controllers
             }
 
 
-            List<Plat> platsLinq = _context.Plat.OrderByDescending(p => p.Prix).Take(nbPlats).ToList();
+            // EXERCICE LINQ: OrderByDescending, Take et ToList.
+            List<Plat> platsLinq = _context.Plat.OrderByDescending(p => p.Prix).Take(3).ToList();
             
             return new PlatsViewModel("Quels sont les plats les plus chers?", platsLesPlusChers, platsLinq);
         }
